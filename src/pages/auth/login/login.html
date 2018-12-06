@@ -1,0 +1,26 @@
+<ion-header no-border>
+
+  <ion-navbar transparent>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <div class="login-conteiner">
+    <form padding [formGroup]="loginForm" (submit)="login()" novalidate>
+      <ion-item>
+        <ion-input type="email" formControlName="email" placeholder="Email" clearInput clearOnEdit="false"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="password" formControlName="password" placeholder="Senha" clearInput clearOnEdit="false"></ion-input>
+      </ion-item>
+      <button ion-button block color="light" [disabled]="!loginForm.valid">Logar</button>
+    </form>    
+    <br><br><br>
+    <div (click)="goToSignup()">
+      <span>Não é cadastrado? <button ion-button block color="light" class="login-button">Cadastre-se</button></span>
+    </div>
+  </div>
+  
+</ion-content>

@@ -1,0 +1,15 @@
+<ion-header>
+
+  <ion-navbar color="blue-dark">
+    <ion-title text-center>Configuracao</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content [ngClass]="backgroundColor" class="content">
+    <ion-item>
+      <ion-label>Desligar/Ligar</ion-label>
+      <ion-toggle [(ngModel)]="modo" (ionChange)="statusSensor(modo)"></ion-toggle>
+    </ion-item>
+</ion-content>

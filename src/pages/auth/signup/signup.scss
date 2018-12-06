@@ -1,0 +1,25 @@
+page-signup {
+
+    .signup-conteiner {
+        z-index: 2;
+        padding: 10vw;
+        margin: 0 auto;
+        color: #fff;
+        text-align: center;
+        width: 100%;
+        top: 60px;
+        position: absolute;
+    }
+    
+    .signup-button {
+        text-transform: uppercase;
+        &.activated {
+            background-color: rgba(255, 255, 255, .4) !important;
+        }
+    }
+    
+    ion-content {
+        background: linear-gradient(rgba(215, 40, 40, 0.9), #fff);
+    }
+
+}

@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar color="blue-dark">
+    <ion-select [(ngModel)]="nomeCentral" style="color:#fff; font-size: 20px" interface="popover">
+      <ion-option *ngFor="let nome of nomesCentrais" (ionSelect)="centralSelect(nome)">
+        {{nome.nome_central}}
+      </ion-option>
+    </ion-select>
+  </ion-navbar>  
+</ion-header>
+
+<ion-content class="content">
+  <div class="grafico-conteiner">
+  <ion-toolbar>
+    <ion-title text-center>Grafico de consumo</ion-title>
+  <canvas #lineCanvas></canvas>
+</ion-toolbar>
+</div>
+</ion-content>

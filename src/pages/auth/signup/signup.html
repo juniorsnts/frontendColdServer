@@ -1,0 +1,25 @@
+<ion-header no-border>
+
+  <ion-navbar transparent>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="signup-conteiner">
+    <form padding [formGroup]="signupForm" (submit)="signup()" novalidate>
+      <ion-item>
+        <ion-input type="email" formControlName="email" placeholder="Email" clearOnEdit="false" clearInput></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="password" formControlName="password" placeholder="Senha" clearOnEdit="false" clearInput></ion-input>
+      </ion-item>
+      <button ion-button block color="light" [disabled]="!signupForm.valid">Criar conta</button>
+    </form>
+    <br><br><br>
+    <div class="signup-button">
+      <span>Já tem uma conta? <button ion-button block color="light">Logar</button></span>
+    </div>
+  </div>  
+</ion-content>

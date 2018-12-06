@@ -1,0 +1,14 @@
+page-configuracao {
+
+    .true {
+        background: linear-gradient(#008000, #fff);
+    }
+
+    .false {
+        background: linear-gradient(#00004d, #fff);
+    }
+
+    ion-item{
+        height: 12%;
+    }
+}
