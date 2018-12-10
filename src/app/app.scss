@@ -17,3 +17,11 @@
 .content{
     background: linear-gradient(#00004d, #fff);
 }
+
+.tabs-md .tab-button[aria-selected=true] .tab-button-icon {
+    color: #000080
+  }
+  
+  .tabs-ios .tab-button[aria-selected=true] .tab-button-icon {
+    color: #000080
+  }

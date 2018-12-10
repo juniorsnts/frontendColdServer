@@ -1,10 +1,15 @@
 <ion-header>
   <ion-navbar color="blue-dark">
-    <ion-select [(ngModel)]="nomeCentral" style="color:#fff; font-size: 20px" interface="popover">
-      <ion-option *ngFor="let nome of nomesCentrais" (ionSelect)="centralSelect(nome)">
+    <ion-select style="color:#fff; font-size: 20px" multiple="false">
+      <ion-option *ngFor="let nome of nomesCentrais" (ionSelect)="centralSelect(nome)" [value]="nome.id_central" [selected]="nome.id_central == 1"> 
         {{nome.nome_central}}
       </ion-option>
     </ion-select>
+    <ion-buttons end >
+      <button ion-button icon-only float-right (click)="logout()">
+        <ion-icon style="font-size: 30px" name="md-exit"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>  
 </ion-header>
 

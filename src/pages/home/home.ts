@@ -10,7 +10,6 @@ import chart from 'chart.js';
 })
 export class HomePage {
 
-  nomeCentral='teste';
   nomesCentrais = [];
 
   @ViewChild('lineCanvas') lineCanvas;
@@ -19,6 +18,10 @@ export class HomePage {
     private api: ApiNodeProvider,
     public navCtrl: NavController) { 
       this.botoesCentrais();       
+  }
+
+  ionViewWillLeave(){
+    console.log("Enviar parametros");
   }
 
   ionViewDidLoad(){    
@@ -33,7 +36,7 @@ export class HomePage {
 
   async botoesCentrais(){
     await this.api.botoes('/botoesCentrais').subscribe(res=>{
-      let centrais = res;
+      let centrais: any = res;
       for(let i=0; i<centrais.length; i++){
         this.nomesCentrais[i] = centrais[i];
       }
@@ -50,10 +53,16 @@ export class HomePage {
 
   getChartLine(){
     const data = {
-      labels: ["Teste1", "Teste2", "Teste3", "Teste4"],
+      labels: ["Teste1", "Teste2", "Teste3", "Teste4"], //horas desligadas
       datasets: [{
         label: 'Consumo',
-        data: [12, 14, 16, 18],
+        data: [{
+          x: new Date(),
+          y: 1
+        }, {
+          t: new Date(),
+          y: 10
+        }], //horas ligadas
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -89,6 +98,9 @@ export class HomePage {
     });
   }
 
+  logout(){
+    this.navCtrl.setRoot('LoginPage');
+  }
   
 
 }

@@ -9,7 +9,7 @@ import { ApiNodeProvider } from '../providers/api-node/api-node';
 import { TabsPage } from '../pages/tabs/tabs';
 import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
+const config: SocketIoConfig = {url: 'http://192.168.2.108:3000', options: {}};
 
 @NgModule({
   declarations: [

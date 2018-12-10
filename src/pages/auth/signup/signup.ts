@@ -40,4 +40,8 @@ export class SignupPage {
     });          
   }
 
+  goToLogin(){
+    this.navCtrl.pop();
+  }
+
 }

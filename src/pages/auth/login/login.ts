@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TabsPage } from '../../tabs/tabs';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @IonicPage()
 @Component({
@@ -14,11 +15,13 @@ export class LoginPage {
   loginForm: any;
 
   constructor(
+    private splashScreen: SplashScreen,
     private api: ApiNodeProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController) {
+      this.splashScreen.hide();
       this.loginForm = this.formBuilder.group({
         email: ['', Validators.required],
         password: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(20), Validators.required])]

@@ -41,14 +41,14 @@ export class ConfiguracaoPage {
   async statusSensor(modo){ //Envia true ou false para ligar ou desligar central
     await this.api.modoOnOff(this.id, modo).subscribe(res =>{
       console.log('Modo liga/Delsiga'+ res);
-      if(res == 'true'){
+      if(res == '1'){
         let toastCtrl = this.toast.create({
           message: 'Central Ligada',
           duration: 2000,
           position: 'bottom'
         });
         toastCtrl.present();
-      } else if(res == 'false'){
+      } else if(res == '0'){
         let toastCtrl = this.toast.create({
           message: 'Central Desligada',
           duration: 2000,
@@ -57,7 +57,7 @@ export class ConfiguracaoPage {
         toastCtrl.present();
       } else {
         let alertCtrl = this.alert.create({
-          subTitle: 'Erro na comunicao com a central',
+          subTitle: 'Erro na comunicao com a central '+res,
           buttons: [{
             text: 'ok'
           }]
@@ -74,6 +74,35 @@ export class ConfiguracaoPage {
     else {
       this.backgroundColor = 'false';
     }
+  }
+
+  cadastroCentral(){
+    let alertCtrl = this.alert.create({
+      title: 'Cadastrar central',
+      inputs: [{
+        name: 'centralName',
+        placeholder: 'Digite o nome da central'
+      }],
+      buttons:[{
+        text: 'Confirmar',
+        handler: data=>{
+          if(data.centralName != "") 
+          this.api.cadastrarCentral(data.centralName).subscribe(res =>{
+            if(res == 'true'){
+              let toastCtrl = this.toast.create({
+                message: 'Central cadastrada',
+                duration: 2000,
+                position: 'bottom'
+              });
+              toastCtrl.present();
+            }
+          });
+        }
+      }, {
+        text: 'Cancelar'
+      }]
+    })  
+    alertCtrl.present();  
   }
 
 }
