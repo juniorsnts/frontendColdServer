@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ApiNodeProvider } from '../../../providers/api-node/api-node';
 import { TabsPage } from '../../tabs/tabs';
-
+import { StorageProvider } from '../../../providers/storage/storage';
 @IonicPage()
 @Component({
   selector: 'page-signup',
@@ -14,6 +14,7 @@ export class SignupPage {
   signupForm: any;
 
   constructor(
+    private storage: StorageProvider,
     private api: ApiNodeProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -34,7 +35,13 @@ export class SignupPage {
     await this.api.auth('/cadastro', email, senha).subscribe(res =>{
       let data:any = res;
       if(data.estado == true){
-        this.navCtrl.setRoot(TabsPage);
+        this.storage.setStorage('token', data.token).then(()=>{
+          this.api.getToken().then(resp =>{
+            if(resp == 'ok'){
+              this.navCtrl.setRoot(TabsPage);
+            }
+          });
+        });
       } else {
         console.log('nao pode logar');
       }

@@ -4,14 +4,12 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class StorageProvider {
 
-  token;
-
   constructor(private storage: Storage) {
 
   }
 
   setStorage(nome, token){    
-    this.storage.set(nome, token);
+    return this.storage.set(nome, token);
   }
 
   getStorage(nome){   

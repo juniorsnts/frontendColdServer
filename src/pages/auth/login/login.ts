@@ -36,8 +36,13 @@ export class LoginPage {
     await this.api.auth('/login', email, senha).subscribe(res =>{  
       let data:any = res;
       if(data.estado == true){
-        this.storage.setStorage('token', data.token);
-        this.navCtrl.setRoot(TabsPage);
+        this.storage.setStorage('token', data.token).then(()=>{
+          this.api.getToken().then(resp =>{
+            if(resp == 'ok'){
+              this.navCtrl.setRoot(TabsPage);
+            }
+          });
+        })
       } else if(data.estado == false){
         console.log('Usuario nao cadastrado');
       }

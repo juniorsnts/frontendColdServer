@@ -4,28 +4,22 @@ import sha256 from 'sha256';
 import { StorageProvider } from '../storage/storage';
 
 let idCentralSelecionada;
+let token: any;
 
 @Injectable()
 export class ApiNodeProvider {  
   
-  token: any;
   constructor(private storage: StorageProvider,public http: HttpClient) {
-    this.storage.getStorage('token').then(res=>{
-      this.token = res;      
-    })   
-    console.log(this.token);    
+      
   }
+
+  token;
 
   url = "http://192.168.2.108:3000";
 
-  headers = {
-    'Content-Type': 'application/json',
-    'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdGUxIiwiaWF0IjoxNTQ0NjM3MjI4LCJleHAiOjE1NDQ2NDA4Mjh9.IHv-RYKkYM_HLzEt143WvAZMUN5t32HMSjJdXKtbx2M',
-  }
+  headers;
   
-  getToken(){
-  }
-
+  
   auth(caminhoNode, email, senha){
     let data = JSON.stringify({
       email: email,
@@ -57,6 +51,19 @@ export class ApiNodeProvider {
 
   ultimoEstado(){
     return this.http.get(this.url+'/ultimoEstado?id='+idCentralSelecionada, {headers: this.headers});
+  }
+
+  getToken(){
+    return new Promise((resolve, reject)=>{
+      this.storage.getStorage('token').then(res =>{
+        this.token = res;
+        this.headers = {
+          'Content-Type': 'application/json',
+          'x-access-token': this.token
+        }
+        resolve('ok');
+      });
+    });
   }
 
 }
