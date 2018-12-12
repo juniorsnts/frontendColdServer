@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { FormBuilder, Validators } from '@angular/forms';
 import { TabsPage } from '../../tabs/tabs';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ export class LoginPage {
   loginForm: any;
 
   constructor(
+    private storage: StorageProvider,
     private splashScreen: SplashScreen,
     private api: ApiNodeProvider,
     public navCtrl: NavController, 
@@ -31,12 +33,12 @@ export class LoginPage {
   async login(){
     let email = this.loginForm.controls.email.value;
     let senha = this.loginForm.controls.password.value;
-    await this.api.auth('/login', email, senha).subscribe(res =>{
-   
-      if(res == true){
+    await this.api.auth('/login', email, senha).subscribe(res =>{  
+      let data:any = res;
+      if(data.estado == true){
+        this.storage.setStorage('token', data.token);
         this.navCtrl.setRoot(TabsPage);
-        console.log(res);
-      } else if(res == false){
+      } else if(data.estado == false){
         console.log('Usuario nao cadastrado');
       }
     });

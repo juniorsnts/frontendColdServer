@@ -2,6 +2,8 @@ import { ApiNodeProvider } from './../../providers/api-node/api-node';
 import { Component, ViewChild } from '@angular/core';
 import { NavController, IonicPage, App } from 'ionic-angular';
 import chart from 'chart.js';
+import { StorageProvider } from '../../providers/storage/storage';
+
 
 @IonicPage()
 @Component({
@@ -18,6 +20,7 @@ export class HomePage {
   @ViewChild('lineCanvas') lineCanvas;
 
   constructor(
+    private storage: StorageProvider,
     private app: App,
     private api: ApiNodeProvider,
     public navCtrl: NavController) { 
@@ -102,18 +105,14 @@ export class HomePage {
           this.dadosDesligado.push(dados[i].hora);
         }
       }
-      this.processaConsumo(this.dadosLigado, this.dadosDesligado);
       this.lineChart = this.getChartLine(this.dadosLigado, this.dadosDesligado);
     });
   }
 
   logout(){
+    this.storage.removeStorage('token');
     this.navCtrl.setRoot('LoginPage');
     this.app.getRootNav().setRoot('LoginPage');    
   }
-
-  processaConsumo(dadosligado: any, dadosdesligado: any){ // calculo do consumo
-    console.log(dadosdesligado, dadosligado);
-  }  
 
 }

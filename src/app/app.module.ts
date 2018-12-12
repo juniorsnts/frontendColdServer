@@ -9,6 +9,8 @@ import { ApiNodeProvider } from '../providers/api-node/api-node';
 import { TabsPage } from '../pages/tabs/tabs';
 import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { IonicStorageModule } from '@ionic/storage';
+import { StorageProvider } from '../providers/storage/storage';
 const config: SocketIoConfig = {url: 'http://192.168.2.108:3000', options: {}};
 
 @NgModule({
@@ -20,7 +22,8 @@ const config: SocketIoConfig = {url: 'http://192.168.2.108:3000', options: {}};
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,7 +34,8 @@ const config: SocketIoConfig = {url: 'http://192.168.2.108:3000', options: {}};
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiNodeProvider
+    ApiNodeProvider,
+    StorageProvider
   ]
 })
 export class AppModule {}
