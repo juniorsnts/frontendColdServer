@@ -32,7 +32,8 @@ export class SignupPage {
     let email = this.signupForm.controls.email.value;
     let senha = this.signupForm.controls.password.value;
     await this.api.auth('/cadastro', email, senha).subscribe(res =>{
-      if(res == true){
+      let data:any = res;
+      if(data.estado == true){
         this.navCtrl.setRoot(TabsPage);
       } else {
         console.log('nao pode logar');
