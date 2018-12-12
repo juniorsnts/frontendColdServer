@@ -1,6 +1,6 @@
 import { ApiNodeProvider } from './../../providers/api-node/api-node';
 import { Component, ViewChild } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, IonicPage, App } from 'ionic-angular';
 import chart from 'chart.js';
 
 @IonicPage()
@@ -10,18 +10,21 @@ import chart from 'chart.js';
 })
 export class HomePage {
 
+  lineChart: any;
   nomesCentrais = [];
+  dadosLigado = [];
+  dadosDesligado = [];
 
   @ViewChild('lineCanvas') lineCanvas;
 
   constructor(
+    private app: App,
     private api: ApiNodeProvider,
     public navCtrl: NavController) { 
-      this.botoesCentrais();       
+      this.botoesCentrais();
   }
 
   ionViewWillLeave(){
-    console.log("Enviar parametros");
   }
 
   ionViewDidLoad(){    
@@ -30,7 +33,7 @@ export class HomePage {
   ngAfterViewInit() {
     console.log("afterinit");
     setTimeout(() => {
-      this.getChartLine();
+      //this.getChartLine();
     }, 1000);
   }
 
@@ -40,6 +43,7 @@ export class HomePage {
       for(let i=0; i<centrais.length; i++){
         this.nomesCentrais[i] = centrais[i];
       }
+      this.centralSelect(this.nomesCentrais[0]);
     });
   }
 
@@ -51,18 +55,12 @@ export class HomePage {
     });    
   }
 
-  getChartLine(){
+  getChartLine(horasLigadas, horasDesligadas){
     const data = {
-      labels: ["Teste1", "Teste2", "Teste3", "Teste4"], //horas desligadas
+      labels: horasDesligadas, //horas desligadas
       datasets: [{
         label: 'Consumo',
-        data: [{
-          x: new Date(),
-          y: 1
-        }, {
-          t: new Date(),
-          y: 10
-        }], //horas ligadas
+        labels: horasLigadas,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -92,15 +90,30 @@ export class HomePage {
     return this.getChart(this.lineCanvas.nativeElement, 'line', data, options);
   }
 
-  centralSelect(nome){
-    this.api.selecionaCentral(nome.id_central).subscribe(res=>{
-      console.log(res);
+  async centralSelect(nome){
+    await this.api.selecionaCentral(nome.id_central).subscribe(res=>{      
+      let dados:any = res;
+      this.dadosLigado = [];
+      this.dadosDesligado = [];
+      for(let i=0; i<dados.length; i++){
+        if(dados[i].estado == 'ligado'){
+          this.dadosLigado.push(dados[i].hora);
+        } else if(dados[i].estado == 'desligado'){
+          this.dadosDesligado.push(dados[i].hora);
+        }
+      }
+      this.processaConsumo(this.dadosLigado, this.dadosDesligado);
+      this.lineChart = this.getChartLine(this.dadosLigado, this.dadosDesligado);
     });
   }
 
   logout(){
     this.navCtrl.setRoot('LoginPage');
+    this.app.getRootNav().setRoot('LoginPage');    
   }
-  
+
+  processaConsumo(dadosligado: any, dadosdesligado: any){ // calculo do consumo
+    console.log(dadosdesligado, dadosligado);
+  }  
 
 }

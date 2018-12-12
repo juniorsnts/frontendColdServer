@@ -2,8 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import sha256 from 'sha256';
 
+let idCentralSelecionada;
+
 @Injectable()
 export class ApiNodeProvider {
+
+  
 
   constructor(public http: HttpClient) {
   }
@@ -23,7 +27,7 @@ export class ApiNodeProvider {
   }
 
   modoOnOff(id, modo){
-    return this.http.get(this.url+'/ligaDesliga?id='+'1'+'&modo='+modo);
+    return this.http.get(this.url+'/ligaDesliga?id='+idCentralSelecionada+'&modo='+modo); // pegar id da tab home
   }
 
   botoes(caminhoNode){
@@ -31,14 +35,20 @@ export class ApiNodeProvider {
   }
 
   selecionaCentral(idCentral){
+    idCentralSelecionada = idCentral;
     return this.http.get(this.url+'/selecionaCentral?id='+idCentral);
   }
 
-  cadastrarCentral(nomeCentral){
+  cadastrarCentral(nomeCentral, potencia){
     let data = JSON.stringify({
-      nome_central: nomeCentral
+      nome_central: nomeCentral,
+      potencia_central: potencia
     });
     return this.http.post(this.url+'/cadastrar-central', data, {headers: this.headers});
+  }
+
+  ultimoEstado(){
+    return this.http.get(this.url+'/ultimoEstado?id='+idCentralSelecionada);
   }
 
 }

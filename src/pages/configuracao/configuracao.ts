@@ -25,9 +25,18 @@ export class ConfiguracaoPage {
   }
 
   ionViewDidLoad() {
+    this.getStatusBD();
   }
 
-  
+  async getStatusBD(){ // retorna o ultimo estado da central
+    await this.api.ultimoEstado().subscribe(res=>{
+      let results:any = res;
+      results.forEach(resp=>{
+        this.modo = resp.estado;
+      });
+      this.trocaCor(this.modo);   
+    }); 
+  }  
 
   async getStatus(){ // metodo que observa alteracao de ligar/desligar
     this.socket.connect();
@@ -68,7 +77,7 @@ export class ConfiguracaoPage {
   }
 
   trocaCor(status){
-    if(status == true){
+    if(status == true || status == "true"){
       this.backgroundColor = 'true';
     }    
     else {
@@ -82,13 +91,16 @@ export class ConfiguracaoPage {
       inputs: [{
         name: 'centralName',
         placeholder: 'Digite o nome da central'
+      }, {
+        name: 'potencia',
+        placeholder: 'Digite a potência da central'
       }],
       buttons:[{
         text: 'Confirmar',
         handler: data=>{
           if(data.centralName != "") 
-          this.api.cadastrarCentral(data.centralName).subscribe(res =>{
-            if(res == 'true'){
+          this.api.cadastrarCentral(data.centralName, data.potencia).subscribe(res =>{
+            if(res == true){
               let toastCtrl = this.toast.create({
                 message: 'Central cadastrada',
                 duration: 2000,

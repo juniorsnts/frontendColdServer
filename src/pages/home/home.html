@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="blue-dark">
-    <ion-select style="color:#fff; font-size: 20px" multiple="false">
+    <ion-select class="select" style="color:#fff; font-size: 20px;" multiple="false">
       <ion-option *ngFor="let nome of nomesCentrais" (ionSelect)="centralSelect(nome)" [value]="nome.id_central" [selected]="nome.id_central == 1"> 
         {{nome.nome_central}}
       </ion-option>
@@ -16,7 +16,7 @@
 <ion-content class="content">
   <div class="grafico-conteiner">
   <ion-toolbar>
-    <ion-title text-center>Grafico de consumo</ion-title>
+    <ion-title text-center>Gráfico de consumo</ion-title>
   <canvas #lineCanvas></canvas>
 </ion-toolbar>
 </div>
