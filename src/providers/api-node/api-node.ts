@@ -15,7 +15,7 @@ export class ApiNodeProvider {
 
   token;
 
-  url = "http://192.168.2.108:3000";
+  url = "http://192.168.43.8:3000";
 
   headers;
   
@@ -64,6 +64,11 @@ export class ApiNodeProvider {
         resolve('ok');
       });
     });
+  }
+
+  loginAutomatico(token){
+    return this.http.get(this.url+'/verificaLogin', {headers: {'Content-Type': 'application/json',
+    'x-access-token': token}});
   }
 
 }

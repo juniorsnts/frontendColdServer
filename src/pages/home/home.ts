@@ -14,8 +14,8 @@ export class HomePage {
 
   lineChart: any;
   nomesCentrais = [];
-  dadosLigado = [];
-  dadosDesligado = [];
+  consumo = [];
+  mesAno = [];
 
   @ViewChild('lineCanvas') lineCanvas;
 
@@ -58,12 +58,12 @@ export class HomePage {
     });    
   }
 
-  getChartLine(horasLigadas, horasDesligadas){
+  getChartLine(consumo, mesano){
     const data = {
-      labels: horasDesligadas, //horas desligadas
+      labels: mesano, //horas desligadas
       datasets: [{
         label: 'Consumo',
-        labels: horasLigadas,
+        data: consumo,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -94,18 +94,13 @@ export class HomePage {
   }
 
   async centralSelect(nome){
-    await this.api.selecionaCentral(nome.id_central).subscribe(res=>{      
+    await this.api.selecionaCentral(nome.id_central).subscribe(res=>{   
       let dados:any = res;
-      this.dadosLigado = [];
-      this.dadosDesligado = [];
       for(let i=0; i<dados.length; i++){
-        if(dados[i].estado == 'ligado'){
-          this.dadosLigado.push(dados[i].hora);
-        } else if(dados[i].estado == 'desligado'){
-          this.dadosDesligado.push(dados[i].hora);
-        }
+          this.consumo.push(dados[i].consumo);
+          this.mesAno.push(dados[i].mesAno);
       }
-      this.lineChart = this.getChartLine(this.dadosLigado, this.dadosDesligado);
+      this.lineChart = this.getChartLine(this.consumo, this.mesAno);
     });
   }
 

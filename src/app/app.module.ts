@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { IonicStorageModule } from '@ionic/storage';
 import { StorageProvider } from '../providers/storage/storage';
-const config: SocketIoConfig = {url: 'http://192.168.2.108:3000', options: {}};
+const config: SocketIoConfig = {url: 'http://192.168.43.8:3000', options: {}};
 
 @NgModule({
   declarations: [
